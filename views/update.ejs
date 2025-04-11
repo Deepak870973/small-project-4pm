@@ -1,0 +1,19 @@
+<!-- update.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Update</title>
+  <link rel="stylesheet" href="/css/updatestyle.css">
+</head>
+<body>
+  <main>
+    <form action="/update/<%= user._id %>" method="post">
+      <div>
+        <input type="text" name="username" value="<%= user.username %>" required />
+        <button type="submit">Update</button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

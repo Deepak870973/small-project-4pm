@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <main>
+        <form action="/viewsdata" method="post">
+            <div>
+                <input type="text" name="text", placeholder="enter text">
+                <button type="submit">Add items</button>
+            </div>
+        </form>
+        
+        <div>
+            <div>
+                <button id="sortBtn">Sort Product Name</button>
+                <div id="sortOptions" style="display: none;">
+                    <button onclick="sortTable('asc')">Ascending</button>
+                    <button onclick="sortTable('desc')">Descending</button>
+                </div>
+            </div>
+            
+
+            <table>
+                    <tr>
+                        <th>Serial Number</th>
+                        <th>Product Name</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                    </tr>   
+                    <%list.forEach((val,index)=>{%>
+                        <tr>
+                            <td><%=index+1%></td>
+                            <td><%=val.username%></td>
+                            <td>
+                                <a href="/update/<%=val._id %>">Update</a>
+                            </td>
+                            <td>
+                             <a href="/delete/<%=val._id %>" onclick="return confirm('Are you sure want to delete it?')">Delete</a>   
+                            </td>
+                        </tr>
+                    <% }) %>
+                    
+            </table>
+        </div>
+        <script>
+            const sortBtn = document.getElementById('sortBtn');
+            const sortOptions = document.getElementById('sortOptions');
+        
+            // Show/Hide sort options on button click
+            sortBtn.addEventListener('click', () => {
+                if (sortOptions.style.display === 'none') {
+                    sortOptions.style.display = 'block';
+                } else {
+                    sortOptions.style.display = 'none';
+                }
+            });
+        
+            // Sorting function
+            function sortTable(order) {
+                const table = document.querySelector('table');
+                const rows = Array.from(table.rows).slice(1); // Remove header row
+                const sortedRows = rows.sort((a, b) => {
+                    const valA = a.cells[1].innerText.toLowerCase(); // Product Name column
+                    const valB = b.cells[1].innerText.toLowerCase();
+                    if (order === 'asc') {
+                        return valA.localeCompare(valB);
+                    } else {
+                        return valB.localeCompare(valA);
+                    }
+                });
+        
+                // Remove old rows
+                for (let i = 1; i < table.rows.length; i++) {
+                    table.deleteRow(1);
+                }
+        
+                // Add sorted rows with updated serial number
+                sortedRows.forEach((row, index) => {
+                    row.cells[0].innerText = index + 1;
+                    table.appendChild(row);
+                });
+        
+                sortOptions.style.display = 'none';
+            }
+        
+            // Optional: Hide dropdown if clicked outside
+            document.addEventListener('click', function(e) {
+                if (!sortBtn.contains(e.target) && !sortOptions.contains(e.target)) {
+                    sortOptions.style.display = 'none';
+                }
+            });
+        </script>
+    </main>
+    
+    
+</body>
+</html>
