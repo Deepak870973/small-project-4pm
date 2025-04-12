@@ -1,12 +1,15 @@
 // script.js
 const express=require ('express')
-//const { log } =require('console')
-//const path= require('path')
 const app= express()
-const User= require("./database")
-//const user=require("database.js")
-//connectDB()
-//User()
+require('dotenv').config();
+
+//Import MongoDb connection and import User model
+const connectDB = require("./config/db.js")
+const User= require("./models/User.js")
+
+//connect to Database
+connectDB();
+
 app.set("view engine","ejs")
 app.use(express.json())
 app.use(express.static("public"))
